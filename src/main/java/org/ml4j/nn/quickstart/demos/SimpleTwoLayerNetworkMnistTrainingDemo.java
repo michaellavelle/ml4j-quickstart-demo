@@ -111,20 +111,26 @@ public class SimpleTwoLayerNetworkMnistTrainingDemo {
 		NeuronsActivation testSetLabelActivations = MnistData.loadTestSetLabels(session.getMatrixFactory());
 		
 		NeuronsActivation predictedLabelsActivation = neuralNetwork.forwardPropagate(testSetDataActivations, neuralNetworkContext).getOutput();
-	
-		// Obtain the accuracy of the trained network on a test set of previously unseen data, using the classification context.
-		float testSetAccuracy = neuralNetwork.getClassificationAccuracy(testSetDataActivations,
-				testSetLabelActivations, neuralNetworkContext);
-		
-		LOGGER.info("Post-training test-set accuracy = {} %", testSetAccuracy);
 		
 		int[] predictedDigits = predictedLabelsActivation.getActivations(session.getMatrixFactory()).columnArgmaxs();
 		int[] actualDigits = testSetLabelActivations.getActivations(session.getMatrixFactory()).columnArgmaxs();
+		
+		LOGGER.info("Showcasing on previously unseen test set data...");
 		
 		// Output the first 100 predictions of the test set.
 		IntStream.range(0, 100).forEach(exampleIndex -> {			
 			LOGGER.info("Test-set example {} : Actual digit = {} , Predicted digit = {}", (exampleIndex + 1), actualDigits[exampleIndex], predictedDigits[exampleIndex]);
 		});
+		
+		
+		LOGGER.info("Calculating test set accuracy...");
+
+		// Obtain the accuracy of the trained network on a test set of previously unseen data, using the classification context.
+		float testSetAccuracy = neuralNetwork.getClassificationAccuracy(testSetDataActivations,
+				testSetLabelActivations, neuralNetworkContext);
+		
+		LOGGER.info("Post-training test-set accuracy = {} %", testSetAccuracy);
+	
 	}
 
 	/**

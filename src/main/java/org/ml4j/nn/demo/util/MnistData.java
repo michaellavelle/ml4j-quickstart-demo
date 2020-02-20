@@ -4,8 +4,8 @@ import org.ml4j.MatrixFactory;
 import org.ml4j.nn.neurons.Neurons;
 import org.ml4j.nn.neurons.NeuronsActivation;
 import org.ml4j.nn.neurons.NeuronsActivationImpl;
+import org.ml4j.nn.neurons.format.ImageNeuronsActivationFormat;
 import org.ml4j.nn.neurons.format.NeuronsActivationFormat;
-import org.ml4j.nn.quickstart.demos.SimpleTwoLayerNetworkMnistTrainingDemo;
 import org.ml4j.util.DoubleArrayMatrixLoader;
 
 /**
@@ -15,50 +15,49 @@ import org.ml4j.util.DoubleArrayMatrixLoader;
  *
  */
 public class MnistData {
-	
-	private MnistData() {		
+
+	private MnistData() {
 	}
 
 	public static NeuronsActivation loadTrainingData(MatrixFactory matrixFactory) {
-
-		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(SimpleTwoLayerNetworkMnistTrainingDemo.class.getClassLoader());
+		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(MnistData.class.getClassLoader());
 		// Load Mnist data into double[][] matrices
-		float[][] trainingDataMatrix = toFloatArray(loader.loadDoubleMatrixFromCsv("mnist2500_X_custom.csv",
-				new PixelFeaturesMatrixCsvDataExtractor(), 0, 1000));		
+		float[][] trainingDataMatrix = toFloatArray(
+				loader.loadDoubleMatrixFromCsv("trainisfirst1000_testisnext1000.csv", new KagglePixelFeaturesMatrixCsvDataExtractor(), 1, 1001));
 
 		return new NeuronsActivationImpl(new Neurons(trainingDataMatrix[0].length, false),
 				matrixFactory.createMatrixFromRows(trainingDataMatrix).transpose(),
-				NeuronsActivationFormat.ROWS_SPAN_FEATURE_SET, true);
+				ImageNeuronsActivationFormat.ML4J_DEFAULT_IMAGE_FORMAT, true);
 	}
-	
+
 	public static NeuronsActivation loadTestSetData(MatrixFactory matrixFactory) {
 
-		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(SimpleTwoLayerNetworkMnistTrainingDemo.class.getClassLoader());
+		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(MnistData.class.getClassLoader());
 		// Load Mnist data into double[][] matrices
-		float[][] trainingDataMatrix = toFloatArray(loader.loadDoubleMatrixFromCsv("mnist2500_X_custom.csv",
-				new PixelFeaturesMatrixCsvDataExtractor(), 1000, 2000));		
+		float[][] testDataMatrix = toFloatArray(loader.loadDoubleMatrixFromCsv("trainisfirst1000_testisnext1000.csv",
+				new KagglePixelFeaturesMatrixCsvDataExtractor(), 1001, 2001));
 
-		return new NeuronsActivationImpl(new Neurons(trainingDataMatrix[0].length, false),
-				matrixFactory.createMatrixFromRows(trainingDataMatrix).transpose(),
-				NeuronsActivationFormat.ROWS_SPAN_FEATURE_SET, true);
+		return new NeuronsActivationImpl(new Neurons(testDataMatrix[0].length, false),
+				matrixFactory.createMatrixFromRows(testDataMatrix).transpose(),
+				ImageNeuronsActivationFormat.ML4J_DEFAULT_IMAGE_FORMAT, true);
 	}
 
 	public static NeuronsActivation loadTrainingLabels(MatrixFactory matrixFactory) {
-		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(SimpleTwoLayerNetworkMnistTrainingDemo.class.getClassLoader());
+		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(MnistData.class.getClassLoader());
 		// Load Mnist data into double[][] matrices
-		float[][] testDataMatrix = toFloatArray(loader.loadDoubleMatrixFromCsv("mnist2500_labels_custom.csv",
-				new SingleDigitLabelsMatrixCsvDataExtractor(), 0, 1000));
+		float[][] testDataMatrix = toFloatArray(
+				loader.loadDoubleMatrixFromCsv("trainisfirst1000_testisnext1000.csv", new SingleDigitLabelsMatrixCsvDataExtractor(), 1, 1001));
 
 		return new NeuronsActivationImpl(new Neurons(testDataMatrix[0].length, false),
 				matrixFactory.createMatrixFromRows(testDataMatrix).transpose(),
 				NeuronsActivationFormat.ROWS_SPAN_FEATURE_SET, true);
 	}
-	
+
 	public static NeuronsActivation loadTestSetLabels(MatrixFactory matrixFactory) {
-		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(SimpleTwoLayerNetworkMnistTrainingDemo.class.getClassLoader());
+		DoubleArrayMatrixLoader loader = new DoubleArrayMatrixLoader(MnistData.class.getClassLoader());
 		// Load Mnist data into double[][] matrices
-		float[][] testDataMatrix = toFloatArray(loader.loadDoubleMatrixFromCsv("mnist2500_labels_custom.csv",
-				new SingleDigitLabelsMatrixCsvDataExtractor(), 1000, 2000));
+		float[][] testDataMatrix = toFloatArray(
+				loader.loadDoubleMatrixFromCsv("trainisfirst1000_testisnext1000.csv", new SingleDigitLabelsMatrixCsvDataExtractor(), 1001, 2001));
 
 		return new NeuronsActivationImpl(new Neurons(testDataMatrix[0].length, false),
 				matrixFactory.createMatrixFromRows(testDataMatrix).transpose(),
