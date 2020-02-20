@@ -51,7 +51,7 @@ public class SimpleTwoLayerNetworkMnistTrainingDemo {
 
 		// Create a simple two layer fully-connected neural network.
 		LayeredSupervisedFeedForwardNeuralNetwork neuralNetwork = session
-				.buildLayeredSupervised3DNeuralNetwork("simpleTwoLayerNetwork")
+				.buildLayeredSupervisedNeuralNetwork("simpleTwoLayerNetwork")
 					.withFullyConnectedLayer("firstLayer")
 						.withInputNeurons(new Neurons(784, withBiasUnit(true)))						
 						.withAxonsContextConfigurer(context -> context.withLeftHandInputDropoutKeepProbability(1))
