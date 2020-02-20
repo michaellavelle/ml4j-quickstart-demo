@@ -91,7 +91,7 @@ public class SimpleTwoLayerNetworkMnistTrainingDemo {
 		trainingNeuralNetworkContext.setTrainingLearningRate(0.1f);
 			
 		// Optionally configure hyper-parameters, such as regularisation and dropout for a given layer.
-		FullyConnectedFeedForwardLayer secondLayer = FullyConnectedFeedForwardLayer.class.cast(neuralNetwork.getLayer(0));
+		FullyConnectedFeedForwardLayer secondLayer = FullyConnectedFeedForwardLayer.class.cast(neuralNetwork.getLayer(1));
 		AxonsContext secondLayerAxonsContext = secondLayer.getPrimaryAxonsContext(trainingNeuralNetworkContext.getDirectedComponentsContext());
 		secondLayerAxonsContext.withRegularisationLambda(0).withLeftHandInputDropoutKeepProbability(0.8f);
 				
